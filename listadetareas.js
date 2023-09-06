@@ -4,7 +4,9 @@ let listaTareas = [];
 
 function agregarTarea() {
   let indicador = readlineSync.question("ingresa el indicador de la tarea: ");
-  let descripcion = readlineSync.question("Ingresa la descripcion de la tarea: ");
+  let descripcion = readlineSync.question(
+    "Ingresa la descripcion de la tarea: "
+  );
 
   listaTareas.push({
     indicador,
@@ -17,7 +19,9 @@ function agregarTarea() {
 }
 
 function eliminarTarea() {
-  let indice = readlineSync.question("Ingresa el indice de la tarea a eliminar: ");
+  let indice = readlineSync.question(
+    "Ingresa el indice de la tarea a eliminar: "
+  );
   if (indice >= 0 && indice < listaTareas.length) {
     listaTareas.splice(indice, 1);
     console.log("┌─────────────────────┐");
@@ -28,7 +32,9 @@ function eliminarTarea() {
   }
 }
 function completarTarea() {
-  let indice = readlineSync.question("ingrese el indice de la tarea a completar: ");
+  let indice = readlineSync.question(
+    "ingrese el indice de la tarea a completar: "
+  );
   if (indice >= 0 && indice < listaTareas.length) {
     listaTareas[indice].completada = true;
     console.log("┌─────────────────────────────┐");
