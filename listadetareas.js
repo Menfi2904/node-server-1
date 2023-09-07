@@ -1,17 +1,28 @@
 let readlineSync = require("readline-sync");
 
-let listaTareas = [];
+let listaTareas = [
+  {
+    indicador: "tarea1",
+    descripcionDeTarea: "hacer tarea de matematicas",
+    tareaCompletada: false,
+  },
+  {
+    indicador: "tarea2",
+    descripcionDeTarea: "hacer tarea de programacion",
+    tareaCompletada: false,
+  },
+];
 
 function agregarTarea() {
   let indicador = readlineSync.question("ingresa el indicador de la tarea: ");
-  let descripcion = readlineSync.question(
+  let descripcionDeTarea = readlineSync.question(
     "Ingresa la descripcion de la tarea: "
   );
 
   listaTareas.push({
     indicador,
-    descripcion,
-    completada: false,
+    descripcionDeTarea,
+    tareaCompletada: false,
   });
   console.log("┌───────────────────────────┐");
   console.log("│Tarea Agregada Exitosamente│");
@@ -19,38 +30,41 @@ function agregarTarea() {
 }
 
 function eliminarTarea() {
-  let indice = readlineSync.question(
-    "Ingresa el indice de la tarea a eliminar: "
+  let indicador = readlineSync.question(
+    "Ingresa el indicador de la tarea a eliminar: "
   );
-  if (indice >= 0 && indice < listaTareas.length) {
-    listaTareas.splice(indice, 1);
+  let listaTareasArray = listaTareas.filter(
+    (tarea) => tarea.indicador !== indicador
+  );
+  if (listaTareasArray.length <= listaTareasArray.length) {
+    listaTareas = listaTareasArray;
     console.log("┌─────────────────────┐");
     console.log("│  Tarea Eliminada    │");
     console.log("└─────────────────────┘");
   } else {
-    console.log(" Indice no encontrado ");
+    console.log("No se encontro la Tarea");
   }
 }
+
 function completarTarea() {
-  let indice = readlineSync.question(
-    "ingrese el indice de la tarea a completar: "
-  );
-  if (indice >= 0 && indice < listaTareas.length) {
-    listaTareas[indice].completada = true;
-    console.log("┌─────────────────────────────┐");
-    console.log("│Tarea Completada Exitosamente│");
-    console.log("└─────────────────────────────┘");
-  } else {
-    console.log(" Indice no encontrado ");
+  let indice = readlineSync.question("ingrese el indice de la tarea a completar: ");
+   if (indice >=0 && indice < listaTareas.length) {
+     listaTareas[indice].tareaCompletada = true;
+     console.log("┌─────────────────────────────┐");
+     console.log("│Tarea Completada Exitosamente│");
+     console.log("└─────────────────────────────┘");
+   } else {
+     console.log(" Indice no encontrado ");
+   }
   }
-}
+
 
 function mostrarListaDeTareas() {
   console.log("listaTareas: ");
   listaTareas.forEach((tarea, indice) => {
-    const estado = tarea.completada ? "[Completada: ✔]" : "Pendiente: ";
+    const estado = tarea.tareaCompletada ? "[Completada: ✔]" : "Pendiente: ";
     console.log(
-      `Indice de tarea: ${indice} - Estado: ${estado} - indicador: ${tarea.indicador} - Descripcion de Tarea: ${tarea.descripcion}`
+      `Indice de tarea: ${indice} - Estado: ${estado} - indicador: ${tarea.indicador} - Descripcion de Tarea: ${tarea.descripcionDeTarea}`
     );
   });
 }
