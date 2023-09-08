@@ -65,6 +65,15 @@ async function borrarTareas(indicadorTarea) {
   });
 }
 
+async function guardarListaDeTareas() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 7000));
+    console.log(`la lista de tareas se guardo con los siguientes datos ⮕`);
+    console.log(listaTareas);
+  } catch (error) {
+    console.log(`${error} no se puedo guardar la lista`);
+  }
+}
 
 crearNuevaTarea("tarea4", "Hacer la tarea de física").then((nuevaTarea) => {
   console.log("Nueva tarea creada:", nuevaTarea);
@@ -83,15 +92,5 @@ borrarTareas("tarea1")
   });
 
 
-  
-async function guardarListaDeTareas() {
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 7000));
-    console.log(`la lista de tareas se guardo con los siguientes datos ⮕`);
-    console.log(listaTareas);
-  } catch (error) {
-    console.log(`${error} no se puedo guardar la lista`);
-  }
-}
 
 guardarListaDeTareas();
