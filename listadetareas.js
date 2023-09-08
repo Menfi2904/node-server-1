@@ -1,6 +1,4 @@
-let readlineSync = require("readline-sync");
-
-let listaTareas = [
+const listaTareas = [
   {
     indicador: "tarea1",
     descripcionDeTarea: "hacer tarea de matematicas",
@@ -11,100 +9,89 @@ let listaTareas = [
     descripcionDeTarea: "hacer tarea de programacion",
     tareaCompletada: false,
   },
+  {
+    indicador: "tarea3",
+    descripcionDeTarea: "Ir a comprar al supermercado",
+    tareaCompletada: false,
+  },
 ];
 
-function agregarTarea() {
-  let indicador = readlineSync.question("ingresa el indicador de la tarea: ");
-  let descripcionDeTarea = readlineSync.question(
-    "Ingresa la descripcion de la tarea: "
-  );
 
-  listaTareas.push({
-    indicador,
-    descripcionDeTarea,
-    tareaCompletada: false,
-  });
-  console.log("┌───────────────────────────┐");
-  console.log("│Tarea Agregada Exitosamente│");
-  console.log("└───────────────────────────┘");
-}
-
-function eliminarTarea() {
-  let indicador = readlineSync.question(
-    "Ingresa el indicador de la tarea a eliminar: "
-  );
-  let listaTareasArray = listaTareas.filter(
-    (tarea) => tarea.indicador !== indicador
-  );
-  if (listaTareasArray.length <= listaTareasArray.length) {
-    listaTareas = listaTareasArray;
-    console.log("┌─────────────────────┐");
-    console.log("│  Tarea Eliminada    │");
-    console.log("└─────────────────────┘");
-  } else {
-    console.log("No se encontro la Tarea");
-  }
-}
-
-function completarTarea() {
-  let indice = readlineSync.question("ingrese el indice de la tarea a completar: ");
-   if (indice >=0 && indice < listaTareas.length) {
-     listaTareas[indice].tareaCompletada = true;
-     console.log("┌─────────────────────────────┐");
-     console.log("│Tarea Completada Exitosamente│");
-     console.log("└─────────────────────────────┘");
-   } else {
-     console.log(" Indice no encontrado ");
-   }
-  }
-
-
-function mostrarListaDeTareas() {
-  console.log("listaTareas: ");
-  listaTareas.forEach((tarea, indice) => {
-    const estado = tarea.tareaCompletada ? "[Completada: ✔]" : "Pendiente: ";
-    console.log(
-      `Indice de tarea: ${indice} - Estado: ${estado} - indicador: ${tarea.indicador} - Descripcion de Tarea: ${tarea.descripcionDeTarea}`
-    );
+async function crearNuevaTarea(indicador, descripcionTarea) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const agregarNuevaTarea = {
+        indicador: indicador,
+        descripcionDeTarea: descripcionTarea,
+        tareaCompletada: false,
+      };
+      listaTareas.push(agregarNuevaTarea);
+      resolve(agregarNuevaTarea);
+    }, 1000);
   });
 }
 
-function IniciarMenuTarea() {
-  while (true) {
-    console.log("╔═══════════════════════════════╗");
-    console.log("║                               ║");
-    console.log("║      ─ Menu de Tareas ─       ║");
-    console.log("║                               ║");
-    console.log("║   1. Agregar una Tarea        ║");
-    console.log("║   2. Eliminar una Tarea       ║");
-    console.log("║   3. Completar una Tarea      ║");
-    console.log("║   4. Mostrar lista de Tareas  ║");
-    console.log("║   5. Salir del Menu           ║");
-    console.log("║                               ║");
-    console.log("║                               ║");
-    console.log("╚═══════════════════════════════╝");
 
-    const option = readlineSync.question("Ingresa una opcion: ");
+async function tareaCompletada(indicadortarea) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const tarea = listaTareas.find(
+        (tarea) => tarea.indicador === indicadortarea
+      );
+      if (!tarea) {
+        reject(new Error("tarea no encontrada"));
+      } else {
+        tarea.tareaCompletada = true;
+        resolve(tarea);
+      }
+    }, 3000);
+  });
+}
 
-    switch (option) {
-      case "1":
-        agregarTarea();
-        break;
-      case "2":
-        eliminarTarea();
-        break;
-      case "3":
-        completarTarea();
-        break;
-      case "4":
-        mostrarListaDeTareas();
-        break;
-      case "5":
-        return;
-      default:
-        console.log("opcion invalida");
-    }
+
+async function borrarTareas(indicadorTarea) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const tareaIndex = listaTareas.findIndex(
+        (tareas) => tareas.indicador === indicadorTarea
+      );
+      if (tareaIndex === -1) {
+        reject(new Error("tarea no encontrada"));
+      } else {
+        const borrarTarea = listaTareas.splice(tareaIndex, 1)[0];
+        resolve(borrarTarea);
+      }
+    }, 5000);
+  });
+}
+
+
+crearNuevaTarea("tarea4", "Hacer la tarea de física").then((nuevaTarea) => {
+  console.log("Nueva tarea creada:", nuevaTarea);
+  return tareaCompletada(nuevaTarea.indicador);
+});
+tareaCompletada("tarea4").then((estado) => {
+  console.log("Tarea completada:", estado);
+  return tareaCompletada.indicador;
+});
+borrarTareas("tarea1")
+  .then((tareaEliminada) => {
+    console.log("Tarea eliminada:", tareaEliminada);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
+
+  
+async function guardarListaDeTareas() {
+  try {
+    await new Promise((resolve) => setTimeout(resolve, 7000));
+    console.log(`la lista de tareas se guardo con los siguientes datos ⮕`);
+    console.log(listaTareas);
+  } catch (error) {
+    console.log(`${error} no se puedo guardar la lista`);
   }
 }
 
-IniciarMenuTarea();
+guardarListaDeTareas();
